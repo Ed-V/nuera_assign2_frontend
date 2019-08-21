@@ -20,7 +20,9 @@ const items = props => {
         <div key={innerItemElement.id} className="columns has-text-left">
           <div className="column has-text-weight-bold">{innerItemElement.name}</div>
           <div className="column">${innerItemElement.value}</div>
-          <div className="column"><button className="button is-danger" onClick={props.handleItemDelete.bind(this, innerItemElement.id)}>Remove</button></div>
+          <div className="column">
+          <button className="button is-success" onClick={props.handleItemEdit.bind(this, innerItemElement.id)}>Update</button>
+            <button className="button is-danger" onClick={props.handleItemDelete.bind(this, innerItemElement.id)}>Remove</button></div>
         </div>
       ))}
     </Aux>

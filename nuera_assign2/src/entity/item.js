@@ -1,4 +1,5 @@
-import uuid from "uuid/v4";
+import { observable, action, decorate, computed } from "mobx";
+
 /**
  *
  * This class represents an item
@@ -6,9 +7,9 @@ import uuid from "uuid/v4";
  * @export {Item} The item class
  * @class Item
  */
-export default class Item {
-  constructor(name, value, category) {
-    this._id = uuid();
+const item = class Item {
+  constructor(name, value, category, id) {
+    this._id = id;
     this._name = name;
     this._value = this.StringCoverter(value);
     this._category = category;
@@ -46,6 +47,10 @@ export default class Item {
     this._id = newValue;
   }
 
+  /**
+   * Covert a string to number if not already
+   * @param {number} value - coverted value
+   */
   StringCoverter(value) {
     let result = 0;
     if (typeof value === "string") {
@@ -56,3 +61,12 @@ export default class Item {
     return result;
   }
 }
+
+export default item;
+
+decorate (item, {
+  _name: observable,
+  _id: observable,
+  _value: observable,
+  _category: observable
+})
