@@ -1,3 +1,5 @@
+import { observable, action, decorate, computed } from "mobx";
+
 /**
  *
  * This class represents an item
@@ -5,7 +7,7 @@
  * @export {Item} The item class
  * @class Item
  */
-export default class Item {
+const item = class Item {
   constructor(name, value, category, id) {
     this._id = id;
     this._name = name;
@@ -55,3 +57,12 @@ export default class Item {
     return result;
   }
 }
+
+export default item;
+
+decorate (item, {
+  _name: observable,
+  _id: observable,
+  _value: observable,
+  _category: observable
+})
