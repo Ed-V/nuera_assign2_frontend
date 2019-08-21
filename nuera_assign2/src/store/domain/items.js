@@ -31,6 +31,10 @@ export const itemStore = class ItemStore {
     return newUUID;
   }
 
+  findItem(id){
+    return this._itemList.find(i => i.id === id);
+  }
+
   /**
    * Generate a ID for the items
    * @returns {string} - Generated ID
