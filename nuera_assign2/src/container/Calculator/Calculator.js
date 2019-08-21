@@ -3,6 +3,7 @@ import CalcControl from "./../../component/ui/CalcControl";
 import Items from "../../component/items/items";
 import * as category from "./../../entity/category";
 import { inject, observer } from "mobx-react";
+import axios from "./../../wrappers/axiosWrapper";
 /**
  *A stateful component that creates a calculator
  *
@@ -10,8 +11,7 @@ import { inject, observer } from "mobx-react";
  * @extends {Component}
  */
 class Calculator extends Component {
-
-    //Local states are used as the data entered doesn't matter to other parts of the program
+  //Local states are used as the data entered doesn't matter to other parts of the program
   constructor(props) {
     super(props);
     this.state = {
@@ -21,13 +21,56 @@ class Calculator extends Component {
     };
   }
 
+  componentDidMount() {
+    axios
+      .get("/item")
+      .then(response => {
+        let itemListObject = JSON.parse(response.data);
+
+        itemListObject.forEach(element => {
+          this.props.itemStore.addItem(
+            element.name,
+            element.value,
+            element.category,
+            element.itemId
+          );
+        });
+      })
+      .catch(error => {
+        //Basic error for brevity of assessment
+        alert("An error occured, see console for details");
+        console.log(error);
+      });
+  }
+
   handleSubmit = event => {
     event.preventDefault();
-    this.props.itemStore.addItem(
-      this.state.itemName,
-      this.state.itemCost,
-      this.state.itemCategory
-    );
+    var itemId = this.props.itemStore.generateId();
+
+    axios
+      .post(
+        "/item",
+        JSON.stringify([{
+          name: this.state.itemName,
+          value: this.state.itemCost,
+          category: this.state.itemCategory,
+          itemId: itemId
+        }]), {headers: {
+          'content-type': 'application/json',
+       }}
+      )
+      .then(response => {
+        this.props.itemStore.addItem(
+          this.state.itemName,
+          this.state.itemCost,
+          this.state.itemCategory,
+          itemId
+        );
+      })
+      .catch(error => {
+        alert("An error occured, see console for more detail");
+        console.log(error);
+      });
   };
 
   handleCostChanged = event => {
@@ -46,7 +89,15 @@ class Calculator extends Component {
   };
 
   handleItemDelete = (id, event) => {
-    this.props.itemStore.removeItem(id);
+    axios
+      .delete("item/" + id)
+      .then(response => {
+        this.props.itemStore.removeItem(id);
+      })
+      .catch(error => {
+        alert("An error occured, see console for details");
+        console.log(error);
+      });
   };
 
   render() {
