@@ -21,6 +21,9 @@ class Calculator extends Component {
     };
   }
 
+  /**
+   * Get list of items after component has bee loaded
+   */
   componentDidMount() {
     axios
       .get("/item")

@@ -47,6 +47,10 @@ const item = class Item {
     this._id = newValue;
   }
 
+  /**
+   * Covert a string to number if not already
+   * @param {number} value - coverted value
+   */
   StringCoverter(value) {
     let result = 0;
     if (typeof value === "string") {
