@@ -1,4 +1,3 @@
-import uuid from "uuid/v4";
 /**
  *
  * This class represents an item
@@ -7,8 +6,8 @@ import uuid from "uuid/v4";
  * @class Item
  */
 export default class Item {
-  constructor(name, value, category) {
-    this._id = uuid();
+  constructor(name, value, category, id) {
+    this._id = id;
     this._name = name;
     this._value = this.StringCoverter(value);
     this._category = category;
