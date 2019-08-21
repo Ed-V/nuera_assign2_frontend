@@ -36,7 +36,7 @@ export const itemStore = class ItemStore {
    * @returns {string} - Generated ID
    */
   generateId() {
-    id = uuid();
+    let id = uuid();
     return id;
   }
 
