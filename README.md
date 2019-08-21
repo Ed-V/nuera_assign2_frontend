@@ -1,2 +1,2 @@
-# nuera_assign2_frontend
-React frontend from assignment 1 adapted to integrate API's
+# nura_assign1
+Nura Insurance Assessment Assign 1
