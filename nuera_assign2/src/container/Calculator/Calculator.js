@@ -50,14 +50,19 @@ class Calculator extends Component {
     axios
       .post(
         "/item",
-        JSON.stringify([{
-          name: this.state.itemName,
-          value: this.state.itemCost,
-          category: this.state.itemCategory,
-          itemId: itemId
-        }]), {headers: {
-          'content-type': 'application/json',
-       }}
+        JSON.stringify([
+          {
+            name: this.state.itemName,
+            value: this.state.itemCost,
+            category: this.state.itemCategory,
+            itemId: itemId
+          }
+        ]),
+        {
+          headers: {
+            "content-type": "application/json"
+          }
+        }
       )
       .then(response => {
         this.props.itemStore.addItem(
@@ -66,6 +71,35 @@ class Calculator extends Component {
           this.state.itemCategory,
           itemId
         );
+      })
+      .catch(error => {
+        alert("An error occured, see console for more detail");
+        console.log(error);
+      });
+  };
+
+  handleItemEdit = (itemId, event) => {
+    axios
+      .put(
+        "/item",
+        JSON.stringify({
+          name: this.state.itemName,
+          value: this.state.itemCost,
+          category: this.state.itemCategory,
+          itemId: itemId
+        }),
+        {
+          headers: {
+            "content-type": "application/json"
+          }
+        }
+      )
+      .then(response => {
+        let itemEdit = this.props.itemStore.findItem(itemId);
+
+        itemEdit.name = this.state.itemName;
+        itemEdit.value = this.state.itemCost;
+        itemEdit.category = this.state.itemCategory;
       })
       .catch(error => {
         alert("An error occured, see console for more detail");
@@ -108,6 +142,7 @@ class Calculator extends Component {
           itemList={this.props.itemStore.sortedArray}
           categoryTotal={this.props.itemStore.calcCategoryTotal}
           listTotal={this.props.itemStore.itemTotalPrice}
+          handleItemEdit={this.handleItemEdit}
         />
         <CalcControl
           itemName={this.state.itemName}
