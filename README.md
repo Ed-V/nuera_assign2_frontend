@@ -20,3 +20,12 @@ The update button functions a bit differently. To use the update button fill in 
 --------
 
 Refreshing the page will call the api, as will add item, remove item, and delete item. 
+
+-------
+
+Attempted to use the front end provided by Neura but ran into a few bugs:
+
+-After a fresh install runs into a "rest parameter must be of an array type" must upgrade typescript to fix
+-Delete buttons cause the front end to crash
+
+Due to time constraints I have used my current working frontend to demonstrate the backend.
